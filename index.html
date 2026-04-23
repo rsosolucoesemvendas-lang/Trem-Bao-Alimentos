@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4C1011">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Trem Bão Flow — Uma proposta feita sob medida</title>
+<meta name="description" content="Sistema de gestão industrial feito especialmente para a Trem Bão Alimentos. Uma proposta completa — apresentação, telas do sistema e investimento.">
+<meta property="og:title" content="🐷 Trem Bão Flow — Proposta pra Trem Bão Alimentos">
+<meta property="og:description" content="Sistema de gestão feito sob medida pra indústria de defumados artesanais. Toque pra ver a proposta completa.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rsosolucoesemvendas-lang.github.io/Trem-Bao-Alimentos/">
+<meta property="og:image" content="https://rsosolucoesemvendas-lang.github.io/Trem-Bao-Alimentos/og-preview.png">
+<meta property="og:image:secure_url" content="https://rsosolucoesemvendas-lang.github.io/Trem-Bao-Alimentos/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Trem Bão Flow — Proposta exclusiva pra Trem Bão Alimentos">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trem Bão Flow — Proposta pra Trem Bão Alimentos">
+<meta name="twitter:description" content="Sistema de gestão feito sob medida pra indústria de defumados artesanais.">
+<meta name="twitter:image" content="https://rsosolucoesemvendas-lang.github.io/Trem-Bao-Alimentos/og-preview.png">
+<style>
+  :root {
+    --bordo:          #8B2C2F;
+    --bordo-dark:     #6F1F22;
+    --bordo-deep:     #4C1011;
+    --bordo-black:    #2D0708;
+    --verde-petroleo: #2F7A7A;
+    --verde-petroleo-dark: #1F5A5A;
+    --dourado:        #C9A14A;
+    --dourado-dark:   #A88438;
+    --dourado-light:  #E8C67E;
+    --bege:           #EFE5C9;
+    --creme:          #FAF4E6;
+    --marrom:         #5C2E0D;
+    --texto:          #2A1C15;
+    --texto-suave:    #7A5C4A;
+    --linha:          #E8DFC9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--texto);
+    line-height: 1.6;
+    font-size: 16px;
+    background: var(--bordo-black);
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  .pig-inline {
+    display: inline-block;
+    width: 1.2em; height: 1.2em;
+    background-image: url('logo-fita.jpeg');
+    background-size: 150% auto;
+    background-position: 50% 25%;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: -0.22em;
+    flex-shrink: 0;
+  }
+
+  /* =============== HERO =============== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 80px 40px 60px;
+    background: radial-gradient(ellipse at 70% 30%, var(--bordo-dark) 0%, var(--bordo-black) 80%);
+    color: white;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 6px solid var(--dourado);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(47,122,122,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(201,161,74,0.22) 0%, transparent 55%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%; right: -20%;
+    width: 900px; height: 900px;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+    opacity: 0.25;
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+  .hero-pig {
+    width: 120px; height: 120px;
+    margin: 0 auto 36px;
+    background: url('logo-fita.jpeg') no-repeat center 28%/120%;
+    background-color: white;
+    border-radius: 50%;
+    border: 4px solid var(--dourado);
+    box-shadow: 0 20px 70px rgba(0,0,0,0.5), 0 0 0 8px rgba(201,161,74,0.15);
+    animation: floaty 4s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dourado-light);
+    background: rgba(201, 161, 74, 0.12);
+    padding: 10px 22px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    border: 1px solid rgba(201, 161, 74, 0.35);
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 7vw, 92px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    margin-bottom: 28px;
+    color: white;
+  }
+  .hero h1 .gold {
+    color: var(--dourado);
+    background: linear-gradient(135deg, #E8C67E 0%, #C9A14A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-weight: 300;
+    display: block;
+    font-size: 0.55em;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 .name {
+    font-weight: 900;
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: clamp(18px, 2.2vw, 24px);
+    opacity: 0.92;
+    max-width: 720px;
+    margin: 0 auto 44px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .hero-sub b { color: var(--dourado-light); font-weight: 600; }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--dourado-light);
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 20px;
+    font-weight: 700;
+    animation: bounce 2.2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* =============== FRASES DE IMPACTO =============== */
+  .frases {
+    padding: 100px 40px;
+    background: var(--bordo-black);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .frases::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+    opacity: 0.04;
+  }
+  .frases-container {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .frases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .frase-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201, 161, 74, 0.18);
+    border-radius: 14px;
+    padding: 28px 26px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .frase-card:hover {
+    background: rgba(201, 161, 74, 0.08);
+    border-color: rgba(201, 161, 74, 0.4);
+    transform: translateY(-4px);
+  }
+  .frase-icone {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+  .frase-titulo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dourado-light);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .frase-texto {
+    font-size: 14.5px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.55;
+  }
+
+  /* =============== CARDS DA PROPOSTA =============== */
+  .proposta {
+    padding: 120px 40px;
+    background: linear-gradient(180deg, var(--creme) 0%, #F5ECD4 100%);
+    position: relative;
+  }
+  .proposta-header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 70px;
+  }
+  .proposta-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--dourado-dark);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: rgba(201, 161, 74, 0.15);
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-bottom: 24px;
+  }
+  .proposta h2 {
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    color: var(--texto);
+    margin-bottom: 20px;
+    line-height: 1.05;
+  }
+  .proposta h2 .accent { color: var(--bordo); }
+  .proposta-sub {
+    font-size: 18px;
+    color: var(--texto-suave);
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .cards {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(76,16,17,0.12);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    min-height: 480px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(76,16,17,0.22);
+  }
+  .card:hover .card-image::after {
+    opacity: 0.4;
+  }
+  .card:hover .card-cta {
+    background: var(--dourado);
+    color: var(--bordo-deep);
+    padding-right: 40px;
+  }
+  .card:hover .card-cta::after {
+    right: 16px;
+  }
+
+  .card-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 4px solid var(--dourado);
+  }
+  .card-image::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+  }
+  .card-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--bordo) 0%, var(--bordo-dark) 100%);
+    opacity: 0.72;
+    transition: opacity 0.35s;
+  }
+  .card-image-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    padding: 24px;
+    text-align: center;
+  }
+  .card-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; height: 48px;
+    background: var(--dourado);
+    color: var(--bordo-deep);
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 20px rgba(201, 161, 74, 0.5);
+  }
+  .card-tipo {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 0.9;
+    font-weight: 700;
+  }
+
+  .card-body {
+    padding: 32px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card h3 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    color: var(--bordo);
+    line-height: 1.15;
+  }
+  .card-desc {
+    font-size: 14.5px;
+    color: var(--texto-suave);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    flex: 1;
+  }
+  .card-items {
+    list-style: none;
+    margin-bottom: 24px;
+    font-size: 13px;
+  }
+  .card-items li {
+    padding: 4px 0 4px 22px;
+    position: relative;
+    color: var(--texto);
+  }
+  .card-items li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 11px;
+    width: 10px; height: 10px;
+    border-right: 2px solid var(--dourado);
+    border-top: 2px solid var(--dourado);
+    transform: rotate(45deg);
+  }
+
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: var(--bordo);
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    position: relative;
+    transition: all 0.25s;
+    border-bottom: 3px solid var(--dourado);
+  }
+  .card-cta::after {
+    content: '→';
+    font-size: 18px;
+    position: absolute;
+    right: 24px;
+    transition: right 0.25s;
+  }
+
+  /* =============== COMO VAMOS TRABALHAR =============== */
+  .processo {
+    padding: 100px 40px;
+    background: white;
+    border-top: 1px solid var(--linha);
+  }
+  .processo-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .processo-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .processo h2 {
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 900;
+    color: var(--texto);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .processo h2 .accent { color: var(--bordo); }
+  .processo-sub {
+    font-size: 17px;
+    color: var(--texto-suave);
+  }
+  .processo-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+    position: relative;
+  }
+  .processo-step {
+    background: var(--creme);
+    border-radius: 14px;
+    padding: 24px;
+    border-left: 4px solid var(--bordo);
+    text-align: left;
+  }
+  .processo-step .num {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--dourado-dark);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .processo-step h4 {
+    font-size: 16px;
+    color: var(--bordo);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .processo-step p {
+    font-size: 13.5px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+  }
+
+  /* =============== CTA FINAL =============== */
+  .fim {
+    padding: 120px 40px;
+    background: var(--bordo-deep);
+    color: white;
+    text-align: center;
+    border-top: 6px solid var(--dourado);
+    position: relative;
+    overflow: hidden;
+  }
+  .fim::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(201, 161, 74, 0.15) 0%, transparent 70%);
+  }
+  .fim-container { position: relative; max-width: 720px; margin: 0 auto; }
+  .fim-pig {
+    width: 100px; height: 100px;
+    margin: 0 auto 30px;
+    background: url('logo-fita.jpeg') no-repeat center 28%/120%;
+    background-color: white;
+    border-radius: 50%;
+    border: 4px solid var(--dourado);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .fim h2 {
+    font-size: clamp(32px, 5vw, 50px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .fim p {
+    font-size: 18px;
+    opacity: 0.92;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .fim .assinatura {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 13px;
+    opacity: 0.75;
+    letter-spacing: 0.3px;
+  }
+
+  /* =============== FOOTER =============== */
+  .footer {
+    background: #1A0404;
+    color: rgba(255,255,255,0.5);
+    padding: 30px 40px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+  }
+  .footer-pig {
+    width: 42px; height: 42px;
+    margin: 0 auto 12px;
+    background: url('logo-fita.jpeg') no-repeat center 28%/120%;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid var(--dourado);
+  }
+
+  /* =============== RESPONSIVO =============== */
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+    .hero { padding: 60px 20px 40px; min-height: auto; }
+    .hero::after { width: 450px; height: 450px; top: -10%; right: -40%; }
+    .proposta, .processo, .frases, .fim { padding: 70px 20px; }
+    .cards { grid-template-columns: 1fr; gap: 18px; }
+    .card { min-height: auto; }
+    .card-image { height: 160px; }
+    .card-body { padding: 26px 22px; }
+    .hero-pig { width: 90px; height: 90px; margin-bottom: 24px; }
+    .hero-eyebrow { font-size: 10.5px; letter-spacing: 2px; padding: 8px 16px; margin-bottom: 22px; }
+    .hero-sub { font-size: 16px; margin-bottom: 30px; }
+    .hero-cta { font-size: 12px; letter-spacing: 1.5px; }
+    .frases-grid { gap: 14px; }
+    .frase-card { padding: 22px 20px; }
+    .frase-titulo { font-size: 19px; }
+    .proposta-header { margin-bottom: 44px; }
+    .proposta-label { font-size: 11px; letter-spacing: 2px; }
+    .proposta-sub { font-size: 15.5px; }
+    .processo-steps { gap: 14px; }
+    .processo-step { padding: 20px; }
+    .fim-pig { width: 80px; height: 80px; margin-bottom: 24px; }
+    .fim h2 { font-size: 32px; }
+    .fim p { font-size: 16px; }
+    .fim .assinatura { margin-top: 36px; padding-top: 22px; font-size: 12px; }
+  }
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 38px; }
+    .hero-sub { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================ HERO ================ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-pig"></div>
+    <div class="hero-eyebrow">✨ Proposta exclusiva · Trem Bão Alimentos</div>
+    <h1>
+      <span class="gold">Um sistema pensado do zero pra</span>
+      <span class="name">Trem Bão Flow</span>
+    </h1>
+    <p class="hero-sub">
+      A primeira plataforma de gestão feita <b>sob medida</b> pra indústria de defumados artesanais em atacado — com a cara do porquinho mineiro, o jeito da sua equipe, e a ambição do negócio que você tá construindo.
+    </p>
+    <div class="hero-cta">
+      ↓ Explore abaixo as 3 partes da proposta ↓
+    </div>
+  </div>
+</section>
+
+<!-- ================ FRASES DE IMPACTO ================ -->
+<section class="frases">
+  <div class="frases-container">
+    <div class="frases-grid">
+
+      <div class="frase-card">
+        <div class="frase-icone">🐷</div>
+        <div class="frase-titulo">Não é ERP adaptado.</div>
+        <div class="frase-texto">É sistema desenhado em volta do jeito de trabalhar da Trem Bão — produto por produto, etapa por etapa, carteira por carteira.</div>
+      </div>
+
+      <div class="frase-card">
+        <div class="frase-icone">📲</div>
+        <div class="frase-titulo">O WhatsApp vira loja.</div>
+        <div class="frase-texto">Cliente abre, vê catálogo com foto e preço da <b style="color: var(--dourado-light);">carteira dele</b>, fecha pedido em 3 mensagens. Vende 24h por dia, até de madrugada.</div>
+      </div>
+
+      <div class="frase-card">
+        <div class="frase-icone">🔥</div>
+        <div class="frase-titulo">A cozinha sem caderno.</div>
+        <div class="frase-texto">Um tablet na parede, botões gigantes pra mão suja de tempero. Um toque avança etapa. Timer, responsável e rendimento ficam registrados sozinhos.</div>
+      </div>
+
+      <div class="frase-card">
+        <div class="frase-icone">🔍</div>
+        <div class="frase-titulo">Rastreabilidade em 5 cliques.</div>
+        <div class="frase-texto">Qualquer lote, qualquer cliente, qualquer fornecedor. Obrigação legal da indústria de alimentos, resolvida por design.</div>
+      </div>
+
+      <div class="frase-card">
+        <div class="frase-icone">💰</div>
+        <div class="frase-titulo">PIX libera produção sozinho.</div>
+        <div class="frase-texto">Cliente paga, o sistema vê no banco, a cozinha recebe a ordem de fabricar. Sem ninguém no meio pra conferir extrato.</div>
+      </div>
+
+      <div class="frase-card">
+        <div class="frase-icone">📊</div>
+        <div class="frase-titulo">Decisão com dado, não no chute.</div>
+        <div class="frase-texto">Quanto vendeu hoje. Qual produto dá mais margem. Qual cliente sumiu nas últimas 4 semanas. Tudo em tempo real.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================ CARDS DA PROPOSTA ================ -->
+<section class="proposta" id="proposta">
+  <div class="proposta-header">
+    <div class="proposta-label">A proposta em 3 partes</div>
+    <h2>
+      Três documentos. <span class="accent">Uma proposta inteira.</span>
+    </h2>
+    <p class="proposta-sub">
+      Toque em cada card pra ver a parte que quiser. Cada um abre em tela cheia, rola de cima até embaixo, conta a história completa daquela dimensão do projeto.
+    </p>
+  </div>
+
+  <div class="cards">
+
+    <a href="apresentacao-trem-bao.html" class="card">
+      <div class="card-image">
+        <div class="card-image-content">
+          <div class="card-num">01</div>
+          <div class="card-tipo">A proposta</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Apresentação do sistema</h3>
+        <p class="card-desc">A história completa: o que tem hoje no dia-a-dia da Trem Bão, o que o sistema resolve, como tudo se conecta, quanto tempo leva pra construir.</p>
+        <ul class="card-items">
+          <li>8 dores reais da operação atual</li>
+          <li>5 pilares da solução</li>
+          <li>7 módulos ilustrados com telas</li>
+          <li>4 fases de implementação</li>
+          <li>Resultados esperados por área</li>
+        </ul>
+        <span class="card-cta">Ler a apresentação</span>
+      </div>
+    </a>
+
+    <a href="trem-bao-flow.html" class="card">
+      <div class="card-image">
+        <div class="card-image-content">
+          <div class="card-num">02</div>
+          <div class="card-tipo">O sistema na prática</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Telas do sistema</h3>
+        <p class="card-desc">As 9 telas principais do <b style="color:var(--bordo);">Trem Bão Flow</b> já desenhadas com a identidade da marca. Login, cozinha, WhatsApp, entrega — tudo com o porquinho e o bordô.</p>
+        <ul class="card-items">
+          <li>Design System com as cores da marca</li>
+          <li>Dashboard Admin completo</li>
+          <li>Painel da Cozinha (tablet)</li>
+          <li>App do Motorista (mobile)</li>
+          <li>Bot WhatsApp e catálogo</li>
+          <li>Configurações e relatórios</li>
+        </ul>
+        <span class="card-cta">Ver as telas</span>
+      </div>
+    </a>
+
+    <a href="orcamento-trem-bao.html" class="card">
+      <div class="card-image">
+        <div class="card-image-content">
+          <div class="card-num">03</div>
+          <div class="card-tipo">O investimento</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Investimento e orçamento</h3>
+        <p class="card-desc">Números transparentes: quanto custa construir, quanto custa manter por mês, e quanto custam atualizações futuras. Sem letra miúda.</p>
+        <ul class="card-items">
+          <li>Faixas de mercado (3 caminhos)</li>
+          <li>Investimento por fase detalhado</li>
+          <li>Custo mensal de operação</li>
+          <li>Preços de novas features</li>
+          <li>Formas de pagamento</li>
+          <li>Retorno de investimento estimado</li>
+        </ul>
+        <span class="card-cta">Ver o investimento</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ================ COMO VAMOS TRABALHAR ================ -->
+<section class="processo">
+  <div class="processo-container">
+    <div class="processo-header">
+      <h2>E agora, <span class="accent">como a gente faz?</span></h2>
+      <p class="processo-sub">Quatro passos simples pra sair do papel.</p>
+    </div>
+    <div class="processo-steps">
+      <div class="processo-step">
+        <div class="num">1</div>
+        <h4>Leitura da proposta</h4>
+        <p>Você navega pelos 3 documentos com calma, anota o que gostou, o que não entendeu, o que quer mudar.</p>
+      </div>
+      <div class="processo-step">
+        <div class="num">2</div>
+        <h4>Reunião de alinhamento</h4>
+        <p>A gente conversa sobre o escopo real, ajusta prioridades, define o que começar primeiro.</p>
+      </div>
+      <div class="processo-step">
+        <div class="num">3</div>
+        <h4>Proposta fechada</h4>
+        <p>Com o escopo alinhado, a gente fecha valores, prazos e contrato. Aí começa.</p>
+      </div>
+      <div class="processo-step">
+        <div class="num">4</div>
+        <h4>Primeiras 2 semanas</h4>
+        <p>Já tem o sistema rodando em modo teste — cadastros e cozinha. Você vê funcionar antes de seguir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CTA FINAL ================ -->
+<section class="fim">
+  <div class="fim-container">
+    <div class="fim-pig"></div>
+    <h2>Bora tirar a Trem Bão<br>do papel e colocar no Flow?</h2>
+    <p>A proposta tá toda aí em cima. Depois de ler, o próximo passo é a gente sentar pra alinhar escopo, prazo e investimento.</p>
+    <p>Do cliente mandando "oi" no WhatsApp até o motorista entregando no Mercado São José — tudo vivendo dentro do <b style="color: var(--dourado-light);">Trem Bão Flow</b>.</p>
+
+    <div class="assinatura">
+      <span class="pig-inline"></span> <b>Trem Bão Flow</b> · Uma proposta feita com carinho pra Trem Bão Alimentos<br>
+      <span style="opacity: 0.7;">Belo Horizonte / MG · abril de 2026</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-pig"></div>
+  Trem Bão Flow · Sistema de gestão da Trem Bão Alimentos · © 2026
+</footer>
+
+</body>
+</html>
