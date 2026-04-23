@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4C1011">
+<title>Trem Bão Flow — Proposta de Sistema pra Trem Bão Alimentos</title>
+<style>
+  :root {
+    --bordo:         #8B2C2F;
+    --bordo-dark:    #6F1F22;
+    --bordo-deep:    #4C1011;
+    --bordo-light:   #A6434A;
+    --verde-petroleo:#2F7A7A;
+    --verde-petroleo-dark: #1F5A5A;
+    --dourado:       #C9A14A;
+    --dourado-dark:  #A88438;
+    --dourado-light: #E8C67E;
+    --bege:          #EFE5C9;
+    --creme:         #FAF4E6;
+    --marrom:        #5C2E0D;
+    --sucesso: #2F8E4E;
+    --alerta:  #C0392B;
+    --atencao: #D9A200;
+    --texto:       #2A1C15;
+    --texto-suave: #7A5C4A;
+    --linha:       #E8DFC9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--texto);
+    line-height: 1.6;
+    font-size: 16px;
+    background: var(--creme);
+    overflow-x: hidden;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  /* ============= LOGO INLINE (substitui o emoji 🐷) ============= */
+  .pig-inline {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    background-image: url('logo-fita.jpeg');
+    background-size: 150% auto;
+    background-position: 50% 25%;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: -0.22em;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(139,44,47,0.08);
+  }
+
+  /* ============= NAV TOPO ============= */
+  .top-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 14px 32px;
+    background: rgba(76, 16, 17, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(201, 161, 74, 0.3);
+  }
+  .top-nav-brand {
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+  }
+  .top-nav-pig {
+    width: 32px; height: 32px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid var(--dourado);
+  }
+  .top-nav-links { display: flex; gap: 8px; font-size: 13px; align-items: center; }
+  .top-nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .top-nav-links a:hover { background: rgba(255,255,255,0.15); color: white; }
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px !important;
+    background: rgba(201, 161, 74, 0.18);
+    color: var(--dourado-light) !important;
+    border-radius: 20px !important;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(201, 161, 74, 0.35);
+    transition: all 0.2s;
+  }
+  .nav-back:hover {
+    background: rgba(201, 161, 74, 0.35) !important;
+    transform: translateX(-2px);
+  }
+  .top-nav-brand { display: flex; align-items: center; gap: 14px; }
+
+  /* ============= SEÇÕES GERAIS ============= */
+  section {
+    padding: 100px 40px;
+    min-height: auto;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .container-narrow {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  h1, h2, h3, h4 {
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dourado-dark);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: rgba(201, 161, 74, 0.12);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .section-label.light {
+    color: var(--dourado-light);
+    background: rgba(201, 161, 74, 0.18);
+  }
+
+  /* ============= HERO ============= */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 100px 40px 60px;
+    background: var(--bordo-deep);
+    color: white;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 8px solid var(--dourado);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(201,161,74,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(47,122,122,0.15) 0%, transparent 60%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -10%; right: -15%;
+    width: 700px; height: 700px;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+    opacity: 0.25;
+    border-radius: 50%;
+    filter: blur(1px);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: rgba(201, 161, 74, 0.18);
+    color: var(--dourado-light);
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-bottom: 28px;
+    font-weight: 600;
+    border: 1px solid rgba(201, 161, 74, 0.3);
+  }
+  .hero-pig-big {
+    width: 90px; height: 90px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 3px solid var(--dourado);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+    line-height: 1;
+  }
+  .hero h1 .accent {
+    color: var(--dourado);
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.55em;
+    margin-bottom: 8px;
+    letter-spacing: 0;
+  }
+  .hero-sub {
+    font-size: 20px;
+    opacity: 0.92;
+    max-width: 620px;
+    line-height: 1.55;
+    margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .hero-meta b { color: var(--dourado-light); font-weight: 600; }
+
+  /* ============= TEXTO DE APOIO ============= */
+  .lead {
+    font-size: 22px;
+    color: var(--texto-suave);
+    line-height: 1.55;
+    margin-bottom: 40px;
+  }
+  h2.display {
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 900;
+    color: var(--texto);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  h2.display .accent { color: var(--bordo); }
+
+  /* ============= SEÇÃO PROBLEMA ============= */
+  .section-problema {
+    background: var(--creme);
+    padding: 120px 40px;
+    border-top: 1px solid var(--linha);
+  }
+  .problema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .problema-card {
+    background: white;
+    border-radius: 14px;
+    padding: 26px;
+    border-left: 4px solid var(--alerta);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .problema-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .problema-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .problema-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--bordo);
+    font-weight: 700;
+  }
+  .problema-card p {
+    font-size: 14px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+  }
+
+  /* ============= SOLUÇÃO — HERO SECUNDÁRIO ============= */
+  .section-solucao {
+    background: linear-gradient(180deg, var(--bordo) 0%, var(--bordo-dark) 100%);
+    color: white;
+    padding: 140px 40px;
+    position: relative;
+    border-top: 6px solid var(--dourado);
+    border-bottom: 6px solid var(--dourado);
+    overflow: hidden;
+  }
+  .section-solucao::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; right: -10%;
+    width: 600px;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+  .section-solucao .container { position: relative; z-index: 1; }
+  .section-solucao h2 {
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .section-solucao h2 .accent { color: var(--dourado-light); display: block; font-weight: 300; font-style: italic; font-size: 0.55em; letter-spacing: 0; margin-bottom: 12px; }
+  .solucao-lead {
+    font-size: 22px;
+    opacity: 0.95;
+    max-width: 720px;
+    line-height: 1.55;
+    margin-bottom: 50px;
+  }
+  .solucao-pilares {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+  .pilar-card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.2s;
+  }
+  .pilar-card:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(201,161,74,0.4);
+  }
+  .pilar-num {
+    display: inline-block;
+    width: 34px; height: 34px;
+    background: var(--dourado);
+    color: var(--bordo-deep);
+    border-radius: 50%;
+    font-weight: 900;
+    text-align: center;
+    line-height: 34px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .pilar-card h4 {
+    font-size: 17px;
+    color: white;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .pilar-card p {
+    font-size: 13.5px;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  /* ============= FLUXO VISUAL ============= */
+  .section-fluxo {
+    background: var(--creme);
+    padding: 120px 40px;
+  }
+  .fluxo-visual {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 50px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+  .fluxo-step {
+    flex: 1;
+    min-width: 150px;
+    position: relative;
+    padding: 0 12px;
+    text-align: center;
+  }
+  .fluxo-step::after {
+    content: '';
+    position: absolute;
+    top: 32px;
+    right: -10px;
+    width: 20px; height: 3px;
+    background: var(--dourado);
+    z-index: 2;
+  }
+  .fluxo-step:last-child::after { display: none; }
+  .fluxo-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 14px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: 3px solid var(--dourado);
+    box-shadow: 0 4px 12px rgba(139,44,47,0.15);
+    position: relative;
+    z-index: 1;
+  }
+  .fluxo-step h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bordo);
+    margin-bottom: 4px;
+  }
+  .fluxo-step p {
+    font-size: 12px;
+    color: var(--texto-suave);
+    line-height: 1.4;
+  }
+
+  /* ============= MÓDULO CARDS ============= */
+  .section-modulos {
+    background: white;
+    padding: 120px 40px;
+    border-top: 1px solid var(--linha);
+  }
+  .modulo-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+  .modulo-linha:nth-child(even) .modulo-texto { grid-column: 2; grid-row: 1; }
+  .modulo-linha:nth-child(even) .modulo-visual { grid-column: 1; grid-row: 1; }
+  .modulo-linha:last-child { margin-bottom: 0; }
+
+  .modulo-texto h3 {
+    font-size: 36px;
+    color: var(--bordo);
+    margin-bottom: 14px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .modulo-texto .modulo-sub {
+    font-size: 17px;
+    color: var(--texto-suave);
+    margin-bottom: 22px;
+    line-height: 1.55;
+  }
+  .modulo-texto ul {
+    list-style: none;
+  }
+  .modulo-texto ul li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    font-size: 15px;
+    color: var(--texto);
+    line-height: 1.55;
+  }
+  .modulo-texto ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 20px; height: 20px;
+    background: var(--sucesso);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .modulo-emoji {
+    font-size: 14px;
+    color: var(--dourado-dark);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .modulo-visual {
+    background: linear-gradient(135deg, var(--bordo) 0%, var(--bordo-dark) 100%);
+    border-radius: 20px;
+    padding: 36px 32px;
+    color: white;
+    min-height: 440px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(139,44,47,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modulo-visual.creme {
+    background: linear-gradient(135deg, var(--creme) 0%, var(--bege) 100%);
+    color: var(--texto);
+    box-shadow: 0 20px 50px rgba(92,46,13,0.15);
+  }
+  .modulo-visual.verde {
+    background: linear-gradient(135deg, var(--verde-petroleo) 0%, var(--verde-petroleo-dark) 100%);
+    box-shadow: 0 20px 50px rgba(47,122,122,0.25);
+  }
+  .modulo-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('logo-bordo.jpeg') no-repeat;
+    background-size: 600px;
+    background-position: bottom right -200px;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .modulo-visual.creme::before {
+    background: url('logo-fita.jpeg') no-repeat;
+    background-size: 400px;
+    background-position: center;
+    opacity: 0.08;
+  }
+  .modulo-visual > * { position: relative; z-index: 1; }
+
+  /* MINI TELAS NO VISUAL */
+  .mini-kanban {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    width: 100%;
+  }
+  .mini-kcol {
+    background: rgba(255,255,255,0.12);
+    border-radius: 6px;
+    padding: 8px 6px;
+    min-height: 200px;
+  }
+  .mini-kcol-head {
+    background: rgba(0,0,0,0.25);
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .mini-kcard {
+    background: rgba(255,255,255,0.92);
+    color: var(--texto);
+    border-radius: 4px;
+    padding: 5px 6px;
+    margin-bottom: 4px;
+    font-size: 9px;
+    line-height: 1.3;
+    border-left: 2px solid var(--dourado);
+  }
+  .mini-kcard b { display: block; font-size: 9.5px; color: var(--bordo); }
+
+  /* Tela mock WhatsApp mini */
+  .mini-wa {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden;
+  }
+  .mini-wa-top {
+    background: #075E54;
+    color: white;
+    padding: 10px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .mini-wa-top .av {
+    width: 34px; height: 34px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid var(--dourado);
+  }
+  .mini-wa-body {
+    background: #ECE5DD;
+    padding: 10px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+  }
+  .mini-wa-msg {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    max-width: 80%;
+    line-height: 1.4;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+    color: var(--texto);  /* força texto escuro dentro do card bordô */
+  }
+  .mini-wa-msg.user { background: #DCF8C6; align-self: flex-end; }
+  .mini-wa-msg.bot { background: white; align-self: flex-start; }
+
+  /* Carteiras visualização */
+  .carteiras-show {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .carteira-row {
+    background: white;
+    color: var(--texto);
+    padding: 12px 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--dourado);
+  }
+  .carteira-row.finalcon { border-left-color: #9E9E9E; }
+  .carteira-row.amigo { border-left-color: #CD7F32; }
+  .carteira-row.compadre { border-left-color: #A8A8A8; }
+  .carteira-row.familia { border-left-color: #D4AF37; }
+  .carteira-row.parceiro { border-left-color: var(--bordo); }
+  .carteira-row b { color: var(--texto); font-size: 13px; }
+  .carteira-row .preco { color: var(--bordo); font-weight: 800; font-size: 18px; }
+
+  /* Dashboard mini */
+  .mini-dash {
+    background: white;
+    color: var(--texto);
+    border-radius: 10px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .mini-dash-kpi {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .mini-dash-kpi-card {
+    background: var(--creme);
+    padding: 10px 12px;
+    border-radius: 7px;
+    border-top: 3px solid var(--bordo);
+  }
+  .mini-dash-kpi-label { font-size: 9px; color: var(--texto-suave); text-transform: uppercase; letter-spacing: 0.5px; }
+  .mini-dash-kpi-value { font-size: 18px; font-weight: 800; color: var(--texto); margin-top: 2px; }
+  .mini-dash-chart {
+    height: 70px;
+    background: linear-gradient(180deg, rgba(47,122,122,0.2), transparent);
+    border-radius: 6px;
+    position: relative;
+    padding: 8px;
+  }
+  .mini-dash-chart svg { width: 100%; height: 100%; }
+
+  /* Rastreabilidade mini */
+  .rastreio-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-size: 13px;
+  }
+  .rastreio-step {
+    background: rgba(255,255,255,0.92);
+    color: var(--texto);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid var(--dourado);
+    position: relative;
+  }
+  .rastreio-step b { display: block; color: var(--bordo); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .rastreio-arrow {
+    text-align: center;
+    color: var(--dourado-light);
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  /* ============= STATS / IMPACTO ============= */
+  .section-impacto {
+    background: var(--bordo-deep);
+    color: white;
+    padding: 140px 40px;
+    border-top: 6px solid var(--dourado);
+    border-bottom: 6px solid var(--dourado);
+    position: relative;
+    overflow: hidden;
+  }
+  .section-impacto::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('logo-bordo.jpeg') no-repeat center/cover;
+    opacity: 0.08;
+  }
+  .section-impacto .container { position: relative; }
+  .impacto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .impacto-num {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .impacto-num .value {
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--dourado-light);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .impacto-num .label {
+    font-size: 15px;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  /* ============= FASES DE IMPLEMENTAÇÃO ============= */
+  .section-fases {
+    background: var(--creme);
+    padding: 120px 40px;
+  }
+  .fases-timeline {
+    position: relative;
+    padding-left: 50px;
+    margin-top: 50px;
+  }
+  .fases-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 10px; bottom: 10px;
+    width: 3px;
+    background: linear-gradient(180deg, var(--bordo), var(--dourado), var(--sucesso));
+  }
+  .fase-item {
+    position: relative;
+    padding: 20px 28px;
+    background: white;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--bordo);
+  }
+  .fase-item::before {
+    content: '';
+    position: absolute;
+    left: -37px; top: 26px;
+    width: 20px; height: 20px;
+    background: var(--bordo);
+    border: 4px solid var(--creme);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--bordo);
+  }
+  .fase-item.fase2::before { background: var(--dourado); box-shadow: 0 0 0 2px var(--dourado); }
+  .fase-item.fase3::before { background: var(--verde-petroleo); box-shadow: 0 0 0 2px var(--verde-petroleo); }
+  .fase-item.fase4::before { background: var(--sucesso); box-shadow: 0 0 0 2px var(--sucesso); }
+  .fase-item.fase2 { border-left-color: var(--dourado); }
+  .fase-item.fase3 { border-left-color: var(--verde-petroleo); }
+  .fase-item.fase4 { border-left-color: var(--sucesso); }
+  .fase-tag {
+    display: inline-block;
+    background: var(--bordo);
+    color: white;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .fase-item.fase2 .fase-tag { background: var(--dourado); color: var(--marrom); }
+  .fase-item.fase3 .fase-tag { background: var(--verde-petroleo); }
+  .fase-item.fase4 .fase-tag { background: var(--sucesso); }
+  .fase-item h4 { font-size: 22px; color: var(--texto); margin-bottom: 6px; }
+  .fase-tempo { color: var(--texto-suave); font-size: 13px; margin-bottom: 12px; }
+  .fase-item p { color: var(--texto-suave); font-size: 15px; line-height: 1.55; }
+  .fase-item ul { margin-top: 12px; list-style: none; }
+  .fase-item ul li { padding: 4px 0 4px 20px; position: relative; font-size: 14px; }
+  .fase-item ul li::before { content: '•'; color: var(--bordo); position: absolute; left: 5px; font-weight: 900; }
+
+  /* ============= DESIGN DA MARCA ============= */
+  .section-design {
+    background: white;
+    padding: 120px 40px;
+  }
+  .design-mosaic {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-rows: repeat(2, 220px);
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .design-tile {
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+  .design-tile-1 {
+    grid-row: span 2;
+    background: var(--bordo);
+    background-image: url('logo-bordo.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  .design-tile-2 {
+    background: linear-gradient(135deg, var(--verde-petroleo) 0%, var(--verde-petroleo-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  .design-tile-3 {
+    background: var(--dourado);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .design-tile-3 .pigcircle {
+    width: 140px; height: 140px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .design-tile-4 {
+    background: var(--bege);
+    padding: 28px;
+    color: var(--marrom);
+  }
+  .design-tile-5 {
+    background: var(--marrom);
+    color: white;
+    padding: 28px;
+  }
+  .design-tile h5 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .design-tile .big {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .design-tile-2 .big { font-size: 38px; }
+
+  /* ============= CTA FINAL ============= */
+  .section-cta {
+    background: linear-gradient(135deg, var(--bordo) 0%, var(--bordo-deep) 100%);
+    color: white;
+    padding: 140px 40px;
+    text-align: center;
+    border-top: 6px solid var(--dourado);
+    position: relative;
+    overflow: hidden;
+  }
+  .section-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(201,161,74,0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(47,122,122,0.15) 0%, transparent 50%);
+  }
+  .section-cta .container { position: relative; }
+  .cta-pig {
+    width: 120px; height: 120px;
+    margin: 0 auto 28px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 4px solid var(--dourado);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+  .section-cta h2 {
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: -0.025em;
+  }
+  .section-cta .cta-sub {
+    font-size: 22px;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto 50px;
+    line-height: 1.55;
+  }
+  .cta-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto 50px;
+  }
+  .cta-step {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(201,161,74,0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 24px 22px;
+    text-align: left;
+  }
+  .cta-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--dourado);
+    color: var(--bordo-deep);
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .cta-step h4 { font-size: 17px; margin-bottom: 6px; }
+  .cta-step p { font-size: 13.5px; opacity: 0.85; line-height: 1.5; }
+
+  .cta-signature {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* ============= FOOTER ============= */
+  footer.apres-footer {
+    background: var(--marrom);
+    color: var(--bege);
+    padding: 40px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer.apres-footer .logo-small {
+    width: 48px; height: 48px;
+    margin: 0 auto 14px;
+    background: url('logo-fita.jpeg') no-repeat center 30%/115%;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid var(--dourado);
+  }
+
+  /* ============= RESPONSIVO ============= */
+  @media (max-width: 900px) {
+    section { padding: 70px 24px; }
+    .modulo-linha { grid-template-columns: 1fr !important; gap: 30px; direction: ltr !important; }
+    .hero { padding: 90px 24px 50px; }
+    .hero h1 { font-size: 42px; }
+    .hero-sub { font-size: 17px; }
+    .design-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 180px 180px 180px; }
+    .design-tile-1 { grid-row: span 1; grid-column: span 2; }
+    .top-nav-links { display: none; }
+    .top-nav { padding: 10px 16px; }
+    .top-nav-brand { font-size: 13px; gap: 10px; }
+    .top-nav-pig { width: 28px; height: 28px; }
+    .nav-back { padding: 5px 10px !important; font-size: 12px; }
+    .fluxo-visual { flex-wrap: wrap; }
+    .fluxo-step { min-width: 45%; margin-bottom: 30px; }
+    .fluxo-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= NAV TOPO ============= -->
+<nav class="top-nav">
+  <div class="top-nav-brand">
+    <a href="index.html" class="nav-back">← Início</a>
+    <span class="top-nav-pig"></span>
+    Trem Bão Flow
+  </div>
+  <div class="top-nav-links">
+    <a href="#problema">Diagnóstico</a>
+    <a href="#solucao">Solução</a>
+    <a href="#fluxo">Como funciona</a>
+    <a href="#modulos">Módulos</a>
+    <a href="#fases">Como construir</a>
+    <a href="#cta">Próximos passos</a>
+  </div>
+</nav>
+
+<!-- ============= HERO ============= -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="pig-inline"></span> Proposta exclusiva · abril 2026</div>
+    <div class="hero-pig-big"></div>
+    <h1>
+      <span class="accent">Uma proposta pensada do zero pra</span>
+      Trem Bão Alimentos
+    </h1>
+    <p class="hero-sub">
+      Um sistema inteiro de gestão — da primeira mensagem do cliente no WhatsApp até a entrega na porta dele — desenhado especificamente pra indústria de defumados artesanais.
+      <br><br>
+      <b>Não é um sistema pronto com seu logo no canto.</b> É um sistema pensado com a cara do porquinho de chapéu de palha, o jeito mineiro da sua equipe e a ambição de quem não quer parar de crescer.
+    </p>
+    <div class="hero-meta">
+      <div>📍 <b>Trem Bão Alimentos Ltda</b> · Belo Horizonte / MG</div>
+      <div><span class="pig-inline"></span> <b>Sistema:</b> Trem Bão Flow</div>
+      <div>📅 <b>Proposta:</b> 22/04/2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= PROBLEMA ============= -->
+<section class="section-problema" id="problema">
+  <div class="container-narrow">
+    <span class="section-label">O cenário hoje</span>
+    <h2 class="display">
+      Todo dia, a Trem Bão faz <span class="accent">malabarismo</span> em coisas que podiam ser automáticas.
+    </h2>
+    <p class="lead">
+      Indústria de alimentos artesanais em crescimento tem os mesmos pontos cegos — e cada um deles custa dinheiro, cliente ou saúde da equipe. Essa é a realidade que o sistema resolve.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="problema-grid">
+      <div class="problema-card">
+        <div class="problema-icon">📱</div>
+        <h4>O WhatsApp virou um caderno</h4>
+        <p>Pedidos chegam em áudio, texto, foto e vídeo — tudo junto. Anota-se no papel, esquece um, perde outro. Aí o cliente liga nervoso: <i>"e o meu bacon de 15kg que era pra hoje?"</i></p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">⏱</div>
+        <h4>A cozinha não tem timer</h4>
+        <p>A carne foi pra defumação às 7h ou às 9h? Quem é que pôs o tempero? Onde tá o pedido do Mercado São José? Todo dia alguém tem que adivinhar, e uma hora alguém erra.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">📦</div>
+        <h4>Estoque no achismo</h4>
+        <p>Descobre que acabou a paleta suína <i>no meio</i> da produção. O sal de cura foi um dia antes. Quanto sobrou de bacon ontem? "Acho que tem umas 20 peças…" — e acha errado.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">💰</div>
+        <h4>Cobrar dá aflição</h4>
+        <p>Cliente paga, mas ninguém viu o PIX entrar. Outro fica 20 dias atrasado sem receber cobrança porque ninguém lembrou. O fluxo de caixa vira estimativa, não realidade.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">🚚</div>
+        <h4>Entregas viram "telefone sem fio"</h4>
+        <p>Motorista sai com a lista na cabeça. Não entregou? Cliente jura que sim. Recebeu em dinheiro? Quanto voltou no bolso? No fim do dia, ninguém bate o caixa direito.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">🔍</div>
+        <h4>Zero rastreabilidade</h4>
+        <p>Se um lote der problema de qualidade, quais clientes receberam? Quem foi o fornecedor da matéria-prima? Isso é exigência legal pra indústria de alimentos — sem sistema, vira pesadelo.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">👥</div>
+        <h4>Todo mundo vê tudo</h4>
+        <p>Sem controle de acesso, o motorista acaba vendo o financeiro, a vendedora vê o custo de produção, a cozinha vê o preço do cliente. Segredo comercial escapa pela porta da frente.</p>
+      </div>
+      <div class="problema-card">
+        <div class="problema-icon">📈</div>
+        <h4>Decisão sem dado</h4>
+        <p>Quanto você vendeu hoje? Qual produto dá mais margem? Qual cliente sumiu nas últimas 4 semanas? A resposta chega só no fim do mês — quando o problema já cresceu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= SOLUÇÃO ============= -->
+<section class="section-solucao" id="solucao">
+  <div class="container">
+    <span class="section-label light">A resposta</span>
+    <h2>
+      <span class="accent">Apresentando</span>
+      Trem Bão Flow <span class="pig-inline"></span>
+    </h2>
+    <p class="solucao-lead">
+      Um sistema inteiro — cozinha, vendas, financeiro, logística e entrega — desenhado em volta do jeito de trabalhar da Trem Bão, e não o contrário.
+      <br><br>
+      <b>Ele é chamado Trem Bão Flow</b>, porque o nome reflete o que ele faz: transforma a bagunça de mil canais em um único <b>fluxo</b> que se organiza sozinho.
+    </p>
+
+    <div class="solucao-pilares">
+      <div class="pilar-card">
+        <div class="pilar-num">1</div>
+        <h4>O WhatsApp vira loja</h4>
+        <p>O canal principal de vendas hoje vira um balcão automático. O cliente abre, vê o catálogo com foto de cada produto e o preço da categoria dele, e fecha o pedido em três mensagens — sem vendedor ter que estar online.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">2</div>
+        <h4>A cozinha sem caderno</h4>
+        <p>Um tablet grande fixo na parede, com botões gigantes pensados pra mão suja de tempero. Um toque avança de etapa. Quem fez cada coisa, quanto tempo levou, tudo registrado sozinho.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">3</div>
+        <h4>O fluxo fecha sozinho</h4>
+        <p>Cliente pede → dinheiro cai no banco → a cozinha recebe a ordem de produção → o produto é fabricado → a etiqueta sai automática → o motorista pega a rota no celular → entrega com foto de comprovante. Nenhuma etapa precisa de alguém "avisando" a próxima.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">4</div>
+        <h4>Rastreabilidade garantida</h4>
+        <p>Qualquer lote produzido pode ser rastreado até o fornecedor da matéria-prima E até cada cliente que levou. Em 5 cliques, você prova de onde veio, pra onde foi, quem fez. Obrigação legal da indústria de alimentos, atendida por design.</p>
+      </div>
+      <div class="pilar-card">
+        <div class="pilar-num">5</div>
+        <h4>Decisão com dado vivo</h4>
+        <p>Quanto vendeu hoje, qual produto tá dando mais lucro, qual cliente tá comprando menos, quando vai faltar paleta. Tudo na tela, em tempo real. Você deixa de administrar "no escuro" e começa a enxergar o negócio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= COMO FUNCIONA ============= -->
+<section class="section-fluxo" id="fluxo">
+  <div class="container-narrow">
+    <span class="section-label">Como tudo se conecta</span>
+    <h2 class="display">
+      Um <span class="accent">fluxo único</span>, do pedido até a porta do cliente.
+    </h2>
+    <p class="lead">
+      Cada pedido percorre esse caminho dentro do sistema. Em todos os passos, o <b>Trem Bão Flow</b> garante que nada trave, nada caia no esquecimento e nada se perca. E você vê tudo acontecendo em tempo real, na palma da mão.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="fluxo-visual">
+      <div class="fluxo-step">
+        <div class="fluxo-icon">📱</div>
+        <h5>1. Pedido entra</h5>
+        <p>Pelo WhatsApp, balcão ou vendedor — sempre no mesmo sistema</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">💰</div>
+        <h5>2. Pagamento</h5>
+        <p>PIX cai no banco e o sistema confirma sozinho</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">🍖</div>
+        <h5>3. Produção</h5>
+        <p>A ordem de produção nasce na tela da cozinha</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">🔥</div>
+        <h5>4. Defumação</h5>
+        <p>Timer controla o tempo exato na câmara</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">📦</div>
+        <h5>5. Expedição</h5>
+        <p>Etiqueta com lote e validade sai na impressora</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">🚚</div>
+        <h5>6. Rota</h5>
+        <p>Sistema agrupa por região e envia pro motorista</p>
+      </div>
+      <div class="fluxo-step">
+        <div class="fluxo-icon">✅</div>
+        <h5>7. Entrega</h5>
+        <p>Motorista confirma com foto e assinatura digital</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= MÓDULOS ============= -->
+<section class="section-modulos" id="modulos">
+  <div class="container-narrow">
+    <span class="section-label">Os módulos do sistema</span>
+    <h2 class="display">
+      Cada pedaço da operação, <span class="accent">no seu lugar</span>.
+    </h2>
+    <p class="lead" style="margin-bottom: 80px;">
+      Nove módulos que cobrem toda a vida do produto na Trem Bão, desde a matéria-prima até a entrega ao cliente final.
+    </p>
+  </div>
+
+  <div class="container">
+
+    <!-- CATÁLOGO + CARTEIRAS -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Catálogo e preços inteligentes</div>
+        <h3>5 tipos de cliente, 5 preços automáticos.</h3>
+        <p class="modulo-sub">
+          Ninguém mais precisa perguntar "qual o preço pra mim?". Cada cliente é classificado numa <b>carteira</b> (que é basicamente o tipo de cliente — varejo, pequeno comércio, médio, grande, distribuidor) e, pelo CNPJ, o sistema já mostra automaticamente o preço combinado pra aquele grupo.
+          <br><br>
+          Os nomes são mineiros pra ficarem com cara de Trem Bão: 🛒 Consumidor Final, 🤝 Amigo da Casa, 🫱🏽‍🫲🏽 Compadre, 👨‍👩‍👧 Da Família e 🔥 Parceiro de Fogão.
+        </p>
+        <ul>
+          <li>O cliente é identificado pelo CNPJ sozinho — sem ninguém digitar nada</li>
+          <li>Preço muda também por quantidade (atacado grande paga menos)</li>
+          <li>Quando o cliente cresce em volume, o sistema <b>sugere promover ele pra uma carteira melhor</b></li>
+          <li>Mesmo produto, 5 preços diferentes — zero esforço de gestão</li>
+        </ul>
+      </div>
+      <div class="modulo-visual creme">
+        <div class="carteiras-show">
+          <div class="carteira-row finalcon">
+            <div><b>🛒 Consumidor Final</b><br><span style="font-size:11px; color:#888;">varejo, à vista</span></div>
+            <div class="preco">R$ 42/kg</div>
+          </div>
+          <div class="carteira-row amigo">
+            <div><b>🤝 Amigo da Casa</b><br><span style="font-size:11px; color:#888;">pequeno comércio</span></div>
+            <div class="preco">R$ 38/kg</div>
+          </div>
+          <div class="carteira-row compadre">
+            <div><b>🫱🏽‍🫲🏽 Compadre</b><br><span style="font-size:11px; color:#888;">médio comércio</span></div>
+            <div class="preco">R$ 35/kg</div>
+          </div>
+          <div class="carteira-row familia">
+            <div><b>👨‍👩‍👧 Da Família</b><br><span style="font-size:11px; color:#888;">grande comércio</span></div>
+            <div class="preco">R$ 32/kg</div>
+          </div>
+          <div class="carteira-row parceiro">
+            <div><b>🔥 Parceiro de Fogão</b><br><span style="font-size:11px; color:#888;">distribuidor / top</span></div>
+            <div class="preco">R$ 29/kg</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">WhatsApp como balcão automático</div>
+        <h3>O cliente pede em 3 toques, em qualquer horário.</h3>
+        <p class="modulo-sub">
+          O atendimento automático (que a gente chama de "bot", mas tem tom de pessoa) cumprimenta o cliente pelo nome, lembra do último pedido que ele fez, abre o catálogo com foto e preço da <b>carteira dele</b>, e fecha a compra.
+          <br><br>
+          A vendedora só entra em cena quando o cliente pedir ou quando algo sair do automático. Resultado: vende <b>24 horas por dia</b>, inclusive de madrugada e domingo.
+        </p>
+        <ul>
+          <li><b>"Repetir último pedido"</b> — que é o que 60% dos clientes de atacado fazem</li>
+          <li>Catálogo nativo do WhatsApp com foto profissional de cada produto</li>
+          <li>Quando o PIX cai no banco, o sistema libera a produção sozinho</li>
+          <li>Cliente digita "atendente" a qualquer hora e fala com uma pessoa de verdade</li>
+        </ul>
+      </div>
+      <div class="modulo-visual verde">
+        <div class="mini-wa">
+          <div class="mini-wa-top">
+            <div class="av"></div>
+            <div>
+              <b>Trem Bão Alimentos</b><br>
+              <span style="font-size: 11px; opacity: 0.85;">online</span>
+            </div>
+          </div>
+          <div class="mini-wa-body">
+            <div class="mini-wa-msg user">oi</div>
+            <div class="mini-wa-msg bot">Oi, Dona Maria! <span class="pig-inline"></span><br>Último pedido foi 15 dias atrás. O que vamos fazer hoje?</div>
+            <div class="mini-wa-msg user">repetir último</div>
+            <div class="mini-wa-msg bot">Perfeito! 20kg Paleta Fat. + 10kg Cubo<br><b>Total R$ 1.050</b> · PIX 📎</div>
+            <div class="mini-wa-msg user">(comprovante enviado)</div>
+            <div class="mini-wa-msg bot">💚 Confirmado! Produção liberada. Entrega 24/04 ✅</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COZINHA -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Cozinha sem caderno, sem planilha</div>
+        <h3>Um tablet na parede, um toque por etapa.</h3>
+        <p class="modulo-sub">
+          A cozinha enxerga tudo que está rolando em tempo real, organizado em <b>5 colunas visuais</b> (um painel chamado kanban), cada uma representando uma fase da produção: carne temperando, descansando (curando), no defumador, no corte e embalagem, e liberada pro estoque.
+          <br><br>
+          Sem caderno. Sem digitar. Sem "ah, esqueci quem fez". Um toque grande na tela avança de etapa — pensado pra mão suja de tempero.
+        </p>
+        <ul>
+          <li>5 colunas de fases: <b>Preparação → Descanso → Defumação → Corte e Embalagem → Liberado</b></li>
+          <li>Um cronômetro ligado em cada etapa, com alerta quando passa do tempo previsto</li>
+          <li>Quem fez cada produção fica registrado sem ninguém precisar digitar o nome</li>
+          <li><b>Plano B:</b> no início de cada turno sai uma folha impressa com todas as tarefas do dia, pro caso de cair internet ou o tablet pifar — a cozinha nunca para</li>
+        </ul>
+      </div>
+      <div class="modulo-visual">
+        <div class="mini-kanban">
+          <div class="mini-kcol">
+            <div class="mini-kcol-head" style="background: #A67B3E;">🔪 Preparação</div>
+            <div class="mini-kcard"><b>Paleta Fat. 30kg</b>separando MP</div>
+            <div class="mini-kcard"><b>Manta 20kg</b>cortando carne</div>
+            <div class="mini-kcard"><b>Cubo 15kg</b>temperando</div>
+          </div>
+          <div class="mini-kcol">
+            <div class="mini-kcol-head" style="background: #8B3A3A;">⏳ Descanso</div>
+            <div class="mini-kcard"><b>Cubo 10kg</b>24h / 48h</div>
+            <div class="mini-kcard"><b>Manta 15kg</b>42h / 48h</div>
+          </div>
+          <div class="mini-kcol">
+            <div class="mini-kcol-head" style="background: #8B2C2F;">🔥 Defumação</div>
+            <div class="mini-kcard"><b>Paleta Fat. 25kg</b>01:42 / 10h</div>
+            <div class="mini-kcard"><b>Manta 15kg</b>06:40 / 10h</div>
+          </div>
+          <div class="mini-kcol">
+            <div class="mini-kcol-head" style="background: #5C2E0D;">✂ Corte</div>
+            <div class="mini-kcard"><b>Paleta 20kg</b>fatiando</div>
+            <div class="mini-kcard"><b>Kit Feijoada 5un</b>embalando</div>
+          </div>
+          <div class="mini-kcol">
+            <div class="mini-kcol-head" style="background: #2F8E4E;">✅ Liberado</div>
+            <div class="mini-kcard"><b>Paleta 15kg</b>✓ 08:50</div>
+            <div class="mini-kcard"><b>Medalhão 4kg</b>✓ 08:15</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTOQUE E RASTREABILIDADE -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Rastreabilidade legal garantida</div>
+        <h3>Qualquer lote, qualquer cliente, em 5 cliques.</h3>
+        <p class="modulo-sub">
+          Indústria de alimentos tem obrigação legal de rastrear: se um cliente reclamar de algum bacon fabricado 2 meses atrás, você precisa saber em minutos qual foi a matéria-prima usada, qual fornecedor a entregou, quem temperou, quem defumou, e <b>quais outros clientes receberam do mesmo lote</b>.
+          <br><br>
+          Sem sistema, isso é impossível. Com o Trem Bão Flow, é automático — toda essa informação fica amarrada em cada etiqueta impressa.
+        </p>
+        <ul>
+          <li>Produto que vence antes sai primeiro (evita que se perca dinheiro com vencimento)</li>
+          <li>Nota fiscal de fornecedor entra no estoque pela chave, sem digitar um item</li>
+          <li>Alerta automático de vencimento próximo e estoque mínimo (pra não faltar no meio da produção)</li>
+          <li>Rastrear pra trás: "esse pedido usou qual carne?" — ou pra frente: "essa carne foi pra quem?"</li>
+        </ul>
+      </div>
+      <div class="modulo-visual">
+        <div class="rastreio-flow">
+          <div class="rastreio-step">
+            <b>Lote MP</b>
+            Paleta suína · L-MP-2003-A · Frigor X
+          </div>
+          <div class="rastreio-arrow">↓</div>
+          <div class="rastreio-step">
+            <b>Ordem de Produção</b>
+            OP #1189 · Bacon Paleta Fat. 25kg · João
+          </div>
+          <div class="rastreio-arrow">↓</div>
+          <div class="rastreio-step">
+            <b>Lote PA</b>
+            L-PA-2204-03 · Fab 22/04 · Val 22/06
+          </div>
+          <div class="rastreio-arrow">↓</div>
+          <div class="rastreio-step">
+            <b>Pedidos entregues</b>
+            #8891 M. São José · #8897 Padaria João · #8901 Empório Real
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Financeiro sem susto</div>
+        <h3>O PIX confirma e a produção inicia sozinha.</h3>
+        <p class="modulo-sub">
+          O sistema se conecta direto com o banco (Sicoob, Inter ou outro de preferência). Quando o cliente paga via PIX, o sistema vê a entrada na conta, confirma o pedido e a cozinha já recebe a ordem pra começar — <b>sem ninguém precisar olhar o extrato</b>.
+          <br><br>
+          Clientes que atrasam são cobrados automaticamente por mensagens no WhatsApp, com um tom gentil nos primeiros dias e mais firme se continuar. No fim do mês, o sistema entrega a <b>apuração real de lucro</b> (quanto entrou, quanto saiu, qual foi a margem) sem precisar de planilha nenhuma.
+        </p>
+        <ul>
+          <li>Pagamento via PIX entra no sistema automático, sem ninguém conferir</li>
+          <li>Régua de cobrança editável — você escreve como quer que o cliente seja lembrado</li>
+          <li>Controle de crédito por cliente (quem pode comprar a prazo, até quanto)</li>
+          <li>Apuração real de lucro mensal, com custo real de cada lote produzido</li>
+        </ul>
+      </div>
+      <div class="modulo-visual creme">
+        <div class="mini-dash">
+          <div style="font-size: 13px; color: var(--bordo); font-weight: 700; margin-bottom: 12px;">💰 Financeiro · hoje</div>
+          <div class="mini-dash-kpi">
+            <div class="mini-dash-kpi-card" style="border-top-color: var(--sucesso);">
+              <div class="mini-dash-kpi-label">Recebido</div>
+              <div class="mini-dash-kpi-value">R$ 2.300</div>
+            </div>
+            <div class="mini-dash-kpi-card" style="border-top-color: var(--dourado);">
+              <div class="mini-dash-kpi-label">A receber</div>
+              <div class="mini-dash-kpi-value">R$ 42.800</div>
+            </div>
+            <div class="mini-dash-kpi-card" style="border-top-color: var(--alerta);">
+              <div class="mini-dash-kpi-label">Atraso</div>
+              <div class="mini-dash-kpi-value">R$ 980</div>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: var(--texto-suave); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">Fluxo projetado — 7 dias</div>
+          <div class="mini-dash-chart">
+            <svg viewBox="0 0 500 70" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="flux2" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#2F7A7A" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#2F7A7A" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,30 L70,22 L140,18 L210,25 L280,12 L350,18 L420,48 L500,28" stroke="#2F7A7A" stroke-width="3" fill="none"/>
+              <path d="M0,30 L70,22 L140,18 L210,25 L280,12 L350,18 L420,48 L500,28 L500,70 L0,70 Z" fill="url(#flux2)"/>
+              <circle cx="420" cy="48" r="4" fill="#D9A200"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGÍSTICA -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Entregas organizadas</div>
+        <h3>Rota montada sozinha, motorista com aplicativo no celular.</h3>
+        <p class="modulo-sub">
+          Toda manhã, o sistema olha todos os pedidos a entregar naquele dia, <b>agrupa por região</b> (evita motorista indo de um lado pro outro), calcula a melhor sequência (menos quilômetros, menos combustível) e atribui ao motorista certo com o veículo certo.
+          <br><br>
+          O motorista acessa no celular dele uma tela simples: <b>uma entrega por vez</b>, com endereço, telefone, valor a receber. Toca em "CHEGUEI", entrega, tira foto, cliente assina no dedo. Próxima.
+        </p>
+        <ul>
+          <li>Rota sugerida automática — você ajusta se quiser, mas nem sempre precisa</li>
+          <li>Aplicativo feito pro celular do motorista (qualquer Android/iPhone serve)</li>
+          <li>Cliente recebe mensagem no WhatsApp quando o motorista chega</li>
+          <li>No fim do dia, o motorista faz prestação de contas do que recebeu em dinheiro</li>
+        </ul>
+      </div>
+      <div class="modulo-visual verde">
+        <div style="background: white; color: var(--texto); border-radius: 12px; padding: 20px; width: 100%; max-width: 340px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+          <div style="font-size: 11px; color: var(--texto-suave); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Rota do dia</div>
+          <div style="font-size: 18px; font-weight: 800; margin: 4px 0;">🚚 Rota 01 · BH Norte</div>
+          <div style="font-size: 13px; color: var(--texto-suave); margin-bottom: 14px;">4 pedidos · 14,4 kg · R$ 2.350</div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; gap: 10px; padding: 8px; background: var(--creme); border-radius: 8px; border-left: 3px solid var(--sucesso);">
+              <span style="color: var(--sucesso); font-weight: 800;">1</span>
+              <div style="font-size: 12px;"><b>Mercadinho do Zé</b><br><span style="color: var(--texto-suave);">✅ entregue às 10:42</span></div>
+            </div>
+            <div style="display: flex; gap: 10px; padding: 8px; background: var(--creme); border-radius: 8px; border-left: 3px solid var(--atencao);">
+              <span style="color: var(--atencao); font-weight: 800;">2</span>
+              <div style="font-size: 12px;"><b>Empório Real</b><br><span style="color: var(--texto-suave);">🚗 a caminho · 15 min</span></div>
+            </div>
+            <div style="display: flex; gap: 10px; padding: 8px; background: var(--creme); border-radius: 8px; border-left: 3px solid var(--linha);">
+              <span style="color: var(--texto-suave); font-weight: 800;">3</span>
+              <div style="font-size: 12px;"><b>Padaria do João</b><br><span style="color: var(--texto-suave);">⏳ próxima</span></div>
+            </div>
+            <div style="display: flex; gap: 10px; padding: 8px; background: var(--creme); border-radius: 8px; border-left: 3px solid var(--linha);">
+              <span style="color: var(--texto-suave); font-weight: 800;">4</span>
+              <div style="font-size: 12px;"><b>Mercado São José</b><br><span style="color: var(--texto-suave);">⏳ 11:45 aprox.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="modulo-linha">
+      <div class="modulo-texto">
+        <div class="modulo-emoji">Painel de comando</div>
+        <h3>Você abre o sistema e entende tudo em 5 segundos.</h3>
+        <p class="modulo-sub">
+          Cada pessoa da equipe (administrador, vendedor, financeiro, produção, estoque, expedição, motorista) tem o <b>painel próprio</b>, só com o que ela precisa ver — ninguém perde tempo com informação que não é da área dela, e segredo comercial fica protegido.
+          <br><br>
+          <b>No topo do seu painel:</b> "ações que precisam de você agora" com botão pra resolver. <b>Abaixo:</b> os números do dia (pedidos, faturamento, entregas) e tendências que o sistema identifica sozinho ("Kit Feijoada +28% esse mês — aumentar produção?").
+        </p>
+        <ul>
+          <li>Visão 360° da operação pra você (dona)</li>
+          <li>Cada perfil vê só o que é dele — segurança da informação garantida</li>
+          <li>Alertas inteligentes: pedido atrasado, estoque crítico, pagamento não recebido</li>
+          <li>Projeção de quanto dinheiro vai entrar e sair nos próximos 7 dias</li>
+        </ul>
+      </div>
+      <div class="modulo-visual creme">
+        <div class="mini-dash">
+          <div style="font-size: 13px; color: var(--bordo); font-weight: 700; margin-bottom: 12px;">📊 Admin · 22/04 · 09:15</div>
+          <div class="mini-dash-kpi">
+            <div class="mini-dash-kpi-card">
+              <div class="mini-dash-kpi-label">Pedidos hoje</div>
+              <div class="mini-dash-kpi-value">47</div>
+            </div>
+            <div class="mini-dash-kpi-card" style="border-top-color: var(--dourado);">
+              <div class="mini-dash-kpi-label">Faturam.</div>
+              <div class="mini-dash-kpi-value">R$ 18,4k</div>
+            </div>
+            <div class="mini-dash-kpi-card" style="border-top-color: var(--sucesso);">
+              <div class="mini-dash-kpi-label">Margem</div>
+              <div class="mini-dash-kpi-value">41,8%</div>
+            </div>
+          </div>
+          <div style="background: #FFF4E3; padding: 10px 12px; border-radius: 6px; border-left: 3px solid var(--atencao); font-size: 12px; color: var(--marrom);">
+            <b>🚨 4 ações pedem sua atenção:</b><br>
+            3 PIX pra confirmar · 1 inadimplente D+12 · Paleta cobertura 3d · Rota Betim sem motorista
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============= DESIGN DA MARCA ============= -->
+<section class="section-design">
+  <div class="container-narrow">
+    <span class="section-label">Identidade da marca</span>
+    <h2 class="display">
+      Tudo com a <span class="accent">cara da Trem Bão</span>.
+    </h2>
+    <p class="lead">
+      Quando seu cliente abre o catálogo no WhatsApp, ele vê a identidade visual que ele já conhece: o porquinho, o bordô, o dourado. O sistema não é "Microsoft Dynamics com seu logo no canto" — é <b>seu sistema</b>, com sua alma.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="design-mosaic">
+      <div class="design-tile design-tile-1"></div>
+      <div class="design-tile design-tile-2">
+        <div style="text-align: center;">
+          <h5>Cor principal</h5>
+          <div class="big">VERDE PETRÓLEO</div>
+          <div style="font-size: 14px; opacity: 0.85; margin-top: 4px;">#2F7A7A</div>
+        </div>
+      </div>
+      <div class="design-tile design-tile-3">
+        <div class="pigcircle"></div>
+      </div>
+      <div class="design-tile design-tile-4">
+        <h5>Paleta artesanal</h5>
+        <div class="big" style="color: var(--marrom);">Mineiro até no pixel</div>
+        <div style="font-size: 14px; margin-top: 10px; line-height: 1.5;">Creme, bege, dourado — nada de azul corporativo frio. É comida, é afeto, é interior.</div>
+      </div>
+      <div class="design-tile design-tile-5">
+        <h5>Tom de voz</h5>
+        <div class="big">"uai, tá<br>no Trem Bão"</div>
+        <div style="font-size: 14px; margin-top: 10px; opacity: 0.85;">O bot fala como você fala. Cliente sente que tá conversando com gente, não com robô.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= PESSOAS DA EQUIPE ============= -->
+<section style="background: var(--creme); padding: 120px 40px; border-top: 1px solid var(--linha);">
+  <div class="container-narrow">
+    <span class="section-label">Feito pra todo mundo da equipe</span>
+    <h2 class="display">
+      Cada pessoa vê <span class="accent">só o que ela precisa</span> — sem confusão, sem pressão, sem vazamento.
+    </h2>
+    <p class="lead">
+      O sistema é pensado pra proteger a equipe (cada um só vê o que é dele) e pra ser fácil de usar, mesmo pra quem nunca mexeu com tecnologia. Todo mundo ganha, ninguém se complica.
+    </p>
+  </div>
+
+  <div class="container" style="margin-top: 50px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--bordo); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">👑</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">A Dona (você)</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Enxerga tudo: faturamento, margem, produção, entregas, cobrança. É a única que vê o retrato completo do negócio em tempo real.</p>
+      </div>
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--verde-petroleo); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🛒</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">A Vendedora</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Vê catálogo, clientes dela, pedidos em andamento. Sabe quais clientes sumiram pra fazer contato. Não vê custo nem margem — pra não dar informação demais pra quem não precisa.</p>
+      </div>
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--dourado); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">💰</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">O Financeiro</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Confirma pagamentos com um clique, vê quem tá atrasado, dispara cobrança automática. Não vê detalhes de produção — o foco dele é dinheiro entrando e saindo.</p>
+      </div>
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--bordo-light); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">👨‍🍳</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">A Cozinha</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Só vê o que tá produzindo agora e o que vem depois. Interface pensada pra mão suja — botões gigantes, zero digitação, anotação por áudio. Não vê preço nem cliente.</p>
+      </div>
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--marrom); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">📦</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">O Estoque e Expedição</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Vê o que tem guardado, o que precisa separar, o que vence em breve. Faz a conferência antes da entrega pra garantir que o pedido saia certo.</p>
+      </div>
+
+      <div style="background: white; border-radius: 14px; padding: 26px; border-top: 4px solid var(--verde-petroleo-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size: 32px; margin-bottom: 8px;">🚚</div>
+        <h4 style="color: var(--bordo); font-size: 18px; margin-bottom: 8px;">O Motorista</h4>
+        <p style="font-size: 14px; color: var(--texto-suave); line-height: 1.55;">Só vê a rota dele do dia — uma entrega por tela. Navegação delegada ao Waze/Google Maps. Não vê preço, não vê custo, só o que ele precisa pra entregar bem.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= IMPACTO / NÚMEROS ============= -->
+<section class="section-impacto">
+  <div class="container-narrow" style="text-align: center;">
+    <span class="section-label light">O que muda na Trem Bão</span>
+    <h2 class="display" style="color: white;">
+      <span class="accent" style="color: var(--dourado-light);">Resultado de verdade</span>, desde o primeiro mês.
+    </h2>
+    <p class="lead" style="color: rgba(255,255,255,0.9);">
+      Isso não é promessa mágica, é o que acontece na prática quando se troca <b>caderno + planilha + WhatsApp solto + telefonema + vários papéis avulsos</b> por um sistema único que conversa consigo mesmo. As estimativas abaixo são conservadoras — em muitos casos, o ganho é maior.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="impacto-grid">
+      <div class="impacto-num">
+        <div class="value">3×</div>
+        <div class="label">mais pedidos processados<br>por dia, com a mesma equipe atual</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">−80%</div>
+        <div class="label">de erros na expedição<br>(produto trocado, peso errado, falta item)</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">−15 dias</div>
+        <div class="label">no prazo médio de recebimento<br>graças à cobrança automática</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">100%</div>
+        <div class="label">dos lotes rastreáveis<br>— conformidade legal garantida</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">5 min</div>
+        <div class="label">pra fechar o caixa do dia<br>(em vez de 1 hora mexendo em papelzinho)</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">24h</div>
+        <div class="label">catálogo no WhatsApp vendendo<br>até de madrugada e no domingo</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">0</div>
+        <div class="label">cadernos, planilhas ou<br>"anotação num papel qualquer"</div>
+      </div>
+      <div class="impacto-num">
+        <div class="value">+ paz</div>
+        <div class="label">mental pra focar no que<br>realmente importa: crescer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FASES DE IMPLEMENTAÇÃO ============= -->
+<section class="section-fases" id="fases">
+  <div class="container-narrow">
+    <span class="section-label">Como vamos construir</span>
+    <h2 class="display">
+      <span class="accent">4 fases</span>, cada uma entregando valor.
+    </h2>
+    <p class="lead">
+      Não vamos sumir 6 meses pra entregar tudo de uma vez. Cada fase tem um resultado concreto que a Trem Bão já usa, enquanto a próxima vai sendo construída por cima.
+    </p>
+  </div>
+
+  <div class="container-narrow">
+    <div class="fases-timeline">
+      <div class="fase-item">
+        <span class="fase-tag">FASE 1 · NÚCLEO OPERACIONAL</span>
+        <h4>🏭 O sistema dentro da fábrica</h4>
+        <div class="fase-tempo">⏱ 6 a 8 semanas · no começo do projeto</div>
+        <p>No fim desta fase, a Trem Bão já vai estar operando <b>100% dentro do sistema</b>. A cozinha troca o caderno pelo tablet. O financeiro vê os pedidos na tela. As etiquetas saem impressas com lote e validade. O cliente ainda pede por WhatsApp manualmente, mas tudo fica registrado.</p>
+        <p style="background: var(--creme); padding: 10px 14px; border-radius: 6px; margin-top: 14px; font-style: italic; color: var(--marrom); font-size: 14px;">💬 O que você sente: "Pela primeira vez sei exatamente o que tá acontecendo na minha fábrica".</p>
+        <ul>
+          <li>Tela de login e usuários com permissões por cargo (admin, vendas, cozinha, etc)</li>
+          <li>Cadastros: clientes, produtos, carteiras, receitas (fichas técnicas)</li>
+          <li>Pedidos criados internamente + fluxo de confirmação financeira</li>
+          <li>Painel da cozinha com o kanban em tempo real + impressão automática de etiquetas</li>
+          <li>Controle completo de estoque (matéria-prima e produto pronto)</li>
+        </ul>
+      </div>
+
+      <div class="fase-item fase2">
+        <span class="fase-tag">FASE 2 · CANAIS DIGITAIS</span>
+        <h4>📲 WhatsApp vendendo e motorista entregando com app</h4>
+        <div class="fase-tempo">⏱ 3 a 4 semanas · após a Fase 1</div>
+        <p>Agora o cliente começa a pedir <b>sozinho pelo WhatsApp</b>, sem precisar de vendedor online. O pagamento cai no banco e libera produção sem ninguém mexer. O motorista sai pras entregas com a rota no celular dele.</p>
+        <p style="background: var(--creme); padding: 10px 14px; border-radius: 6px; margin-top: 14px; font-style: italic; color: var(--marrom); font-size: 14px;">💬 O que você sente: "O sistema trabalha enquanto eu durmo".</p>
+        <ul>
+          <li>Atendimento automático no WhatsApp, com catálogo, repetir pedido, identificação por CNPJ</li>
+          <li>Conexão com banco (Sicoob ou Inter) pra confirmação automática de PIX</li>
+          <li>Aplicativo do motorista (roda no celular dele, não precisa comprar aparelho)</li>
+          <li>Comprovante de entrega automático com foto e assinatura digital</li>
+        </ul>
+      </div>
+
+      <div class="fase-item fase3">
+        <span class="fase-tag">FASE 3 · INTELIGÊNCIA</span>
+        <h4>📊 O sistema decide junto com você</h4>
+        <div class="fase-tempo">⏱ 3 a 4 semanas · após a Fase 2</div>
+        <p>O sistema deixa de ser "só um registro do que acontece" e começa a <b>sugerir ações</b>: "esse cliente cresceu de volume, pode subir pra carteira Compadre", "essa matéria-prima vai acabar em 3 dias, já comprar?", "esse cliente atrasou 7 dias, mandar cobrança?".</p>
+        <p style="background: var(--creme); padding: 10px 14px; border-radius: 6px; margin-top: 14px; font-style: italic; color: var(--marrom); font-size: 14px;">💬 O que você sente: "Decido com dado, não com chute".</p>
+        <ul>
+          <li>Painéis completos por cargo + relatórios por área (vendas, produção, financeiro, etc)</li>
+          <li>Mensagens de cobrança automáticas no WhatsApp, com tom editável</li>
+          <li>Sugestão automática de promoção de cliente de carteira</li>
+          <li>Rastreabilidade completa (pra frente e pra trás) + apuração real de lucro mensal</li>
+        </ul>
+      </div>
+
+      <div class="fase-item fase4">
+        <span class="fase-tag">FASE 4 · EXPANSÃO</span>
+        <h4>🚀 Crescer sem dor</h4>
+        <div class="fase-tempo">⏱ quando a demanda chegar</div>
+        <p>Agora a Trem Bão tá pronta pra escalar. Entram integrações avançadas que só fazem sentido quando o negócio cresce — nota fiscal eletrônica, balança conectada ao sistema, rastreamento da frota em tempo real.</p>
+        <p style="background: var(--creme); padding: 10px 14px; border-radius: 6px; margin-top: 14px; font-style: italic; color: var(--marrom); font-size: 14px;">💬 O que você sente: "Posso dobrar o tamanho sem dobrar o caos".</p>
+        <ul>
+          <li>Emissão automática de nota fiscal eletrônica (via serviço especializado)</li>
+          <li>Balança digital conectada — peso já entra direto no sistema, zero digitação</li>
+          <li>Rastreamento da frota em tempo real com GPS (cliente vê onde tá o motorista)</li>
+          <li>Funcionamento offline da cozinha e motorista (internet cai, sistema continua)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CTA ============= -->
+<section class="section-cta" id="cta">
+  <div class="container-narrow">
+    <div class="cta-pig"></div>
+    <h2>Bora colocar a<br>Trem Bão no Flow?</h2>
+    <p class="cta-sub">
+      Essa apresentação é só o retrato inicial. O sistema foi pensado com os detalhes da sua operação em mente. Agora é sentar, alinhar, e começar a construir de verdade. São 3 passos pra sair do papel pra realidade.
+    </p>
+
+    <div class="cta-steps">
+      <div class="cta-step">
+        <div class="cta-step-num">1</div>
+        <h4>Conversar e alinhar</h4>
+        <p>Uma reunião pra revisar tudo isso aqui com mais calma, ajustar o que precisa, definir prioridades. O que faz mais sentido começar primeiro na realidade da Trem Bão.</p>
+      </div>
+      <div class="cta-step">
+        <div class="cta-step-num">2</div>
+        <h4>Fechar o começo</h4>
+        <p>Combinar prazos, entregas e investimento das 6 a 8 semanas da Fase 1 (o núcleo operacional). Esse é o marco que muda a vida da fábrica.</p>
+      </div>
+      <div class="cta-step">
+        <div class="cta-step-num">3</div>
+        <h4>Começar de verdade</h4>
+        <p>Nas duas primeiras semanas já rodam os cadastros básicos e o painel da cozinha em modo teste. Você já vê o sistema funcionando e valida tudo antes de seguir.</p>
+      </div>
+    </div>
+
+    <div class="cta-signature">
+      <span class="pig-inline"></span> <b>Trem Bão Flow</b> · Uma proposta feita com carinho, pensando cada detalhe da Trem Bão Alimentos<br>
+      <span style="opacity: 0.6;">Belo Horizonte / MG · 22 de abril de 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="apres-footer">
+  <div class="logo-small"></div>
+  <div><b>Obrigado pela atenção</b> <span class="pig-inline"></span></div>
+  <div style="margin-top: 6px; opacity: 0.7;">Trem Bão Flow · Proposta v1 · abril 2026</div>
+</footer>
+
+</body>
+</html>
